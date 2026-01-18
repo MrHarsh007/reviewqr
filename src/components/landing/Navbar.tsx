@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 import { Logo } from '@/components/ui/Logo';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/lib/contexts/AuthContext';
+import { Badge } from '@/components/ui/badge';
 import { toast } from 'sonner';
 import { Loader2 } from 'lucide-react';
 
@@ -51,9 +52,16 @@ export function Navbar() {
             )}
         >
             <div className="container mx-auto px-4 flex justify-between items-center">
-                <Link href={ROUTES.HOME} className="flex items-center group">
-                    <Logo className="transition-transform group-hover:scale-105" />
-                </Link>
+                <div className="flex items-center gap-3">
+                    <Link href={ROUTES.HOME} className="flex items-center group">
+                        <Logo className="transition-transform group-hover:scale-105" />
+                    </Link>
+                    <Link href="/changelog">
+                        <Badge variant="secondary" className="hover:bg-secondary/80 cursor-pointer transition-colors">
+                            V:1.0
+                        </Badge>
+                    </Link>
+                </div>
 
                 <div className="hidden md:flex items-center gap-8">
                     <Link href="#features" className="text-sm font-medium hover:text-primary transition-colors">Features</Link>

@@ -12,6 +12,7 @@ import { LogOut } from 'lucide-react';
 import { ThemeToggle } from '@/components/theme/ThemeToggle';
 import { ProfileForm } from '@/components/dashboard/ProfileForm';
 import { QRCodeDisplay } from '@/components/dashboard/QRCodeDisplay';
+import { Badge } from '@/components/ui/badge';
 import { toast } from 'sonner';
 import { Logo } from '@/components/ui/Logo';
 import { ROUTES } from '@/lib/constants';
@@ -65,6 +66,11 @@ export default function DashboardPage() {
                             <Logo className="scale-90 transition-transform group-hover:scale-95 origin-left" />
                         </Link>
                         <div className="flex items-center gap-2">
+                            <Link href="/changelog">
+                                <Badge variant="secondary" className="hover:bg-secondary/80 cursor-pointer transition-colors">
+                                    V:1.0
+                                </Badge>
+                            </Link>
                             <ThemeToggle />
                             <Button variant="ghost" size="sm" onClick={signOut}>
                                 <LogOut className="h-4 w-4 mr-2" />
