@@ -185,7 +185,7 @@ export function ReviewClient({ uid, initialData }: ReviewClientProps) {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-neutral-50 via-neutral-100 to-neutral-50 dark:from-neutral-950 dark:via-neutral-900 dark:to-neutral-950">
+        <div className="min-h-screen overflow-x-hidden bg-gradient-to-br from-neutral-50 via-neutral-100 to-neutral-50 dark:from-neutral-950 dark:via-neutral-900 dark:to-neutral-950">
             {/* Header */}
             <header className="border-b bg-background/80 backdrop-blur-md sticky top-0 z-10 transition-all">
                 <div className="container mx-auto px-4 py-4 flex justify-between items-center">
