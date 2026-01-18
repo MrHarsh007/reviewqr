@@ -15,6 +15,8 @@ import { useCopyToClipboard } from '@/hooks/useCopyToClipboard';
 import { ThemeToggle } from '@/components/theme/ThemeToggle';
 import { Logo } from '@/components/ui/Logo';
 import { BackgroundLines } from '@/components/ui/background-lines';
+import { useIsMobile } from '@/hooks/useIsMobile';
+import { cn } from '@/lib/utils';
 
 interface ReviewClientProps {
     uid: string;
@@ -23,6 +25,7 @@ interface ReviewClientProps {
 
 export function ReviewClient({ uid, initialData }: ReviewClientProps) {
     const { copy } = useCopyToClipboard();
+    const isMobile = useIsMobile();
 
     const [employee, setEmployee] = useState<User | null>(initialData);
     const [loading, setLoading] = useState(!initialData);
@@ -198,14 +201,13 @@ export function ReviewClient({ uid, initialData }: ReviewClientProps) {
 
             {/* Background Lines Animation Wrapping Main Content */}
             <BackgroundLines className="py-8" svgOptions={{
-
                 duration: 5
             }}>
                 <main className="container mx-auto px-4 max-w-2xl relative z-10">
                     <div className="space-y-6">
                         {/* Employee Card */}
                         <Card>
-                            <CardContent>
+                            <CardContent className="pt-6">
                                 <div className="flex items-start gap-4">
                                     <img
                                         src={employee.photoURL}

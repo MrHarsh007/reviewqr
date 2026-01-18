@@ -3,6 +3,8 @@ import { cn } from "@/lib/utils";
 import { motion } from "motion/react";
 import React from "react";
 
+import { useIsMobile } from "@/hooks/useIsMobile";
+
 export const BackgroundLines = ({
   children,
   className,
@@ -14,6 +16,8 @@ export const BackgroundLines = ({
     duration?: number;
   };
 }) => {
+  const isMobile = useIsMobile();
+
   return (
     <div
       className={cn(
@@ -21,7 +25,7 @@ export const BackgroundLines = ({
         className
       )}
     >
-      <SVG svgOptions={svgOptions} />
+      {!isMobile && <SVG svgOptions={svgOptions} />}
       {children}
     </div>
   );

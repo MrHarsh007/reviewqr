@@ -7,10 +7,13 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { useAuth } from '@/lib/contexts/AuthContext';
 import { toast } from 'sonner';
+import { cn } from '@/lib/utils';
+import { useIsMobile } from '@/hooks/useIsMobile';
 
 export function Hero() {
     const { signInWithGoogle, user } = useAuth();
     const [isSigningIn, setIsSigningIn] = useState(false);
+    const isMobile = useIsMobile();
 
     const handleSignIn = async () => {
         try {
@@ -18,7 +21,7 @@ export function Hero() {
             await signInWithGoogle();
         } catch (error: any) {
             console.error('Sign in error:', error);
-            if (error.code.includes('auth/popup-closed-by-user')) {
+            if (error.code?.includes('auth/popup-closed-by-user')) {
                 toast.error('Sign in cancelled');
             } else {
                 toast.error('Failed to sign in with Google');
@@ -37,12 +40,18 @@ export function Hero() {
             </div>
 
             <div className="container mx-auto px-4 text-center">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gradient-to-r from-purple-500 via-blue-500 to-pink-500 text-white border-transparent animate-ai-gradient mb-8 animate-in fade-in slide-in-from-bottom-4 duration-1000 transition-all cursor-default shadow-lg shadow-purple-500/20">
+                <div className={cn(
+                    "inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gradient-to-r from-purple-500 via-blue-500 to-pink-500 text-white border-transparent animate-ai-gradient mb-8 animate-in fade-in slide-in-from-bottom-4 duration-1000 transition-all cursor-default shadow-lg shadow-purple-500/20",
+                    isMobile && "duration-500 slide-in-from-bottom-2"
+                )}>
                     <Sparkles className="h-4 w-4" />
                     <span>AI-Powered Review Generation is Here</span>
                 </div>
 
-                <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tight mb-8 animate-in fade-in slide-in-from-bottom-6 duration-1000 delay-200">
+                <h1 className={cn(
+                    "text-5xl md:text-7xl lg:text-8xl font-black tracking-tight mb-8 animate-in fade-in slide-in-from-bottom-6 duration-1000 delay-200",
+                    isMobile && "duration-700 delay-100 slide-in-from-bottom-4"
+                )}>
                     <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary via-primary/80 to-primary/60">
                         {LABELS.TAGLINE.split(' ').slice(0, 2).join(' ')}
                     </span>
@@ -50,12 +59,18 @@ export function Hero() {
                     {LABELS.TAGLINE.split(' ').slice(2).join(' ')}
                 </h1>
 
-                <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto mb-10 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-300">
+                <p className={cn(
+                    "text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto mb-10 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-300",
+                    isMobile && "duration-700 delay-200 slide-in-from-bottom-4 text-lg"
+                )}>
                     Generate personalized QR codes that help customers create quality reviews with AI assistance,
                     and seamlessly redirect them to your preferred review platform.
                 </p>
 
-                <div className="flex flex-col sm:flex-row gap-4 justify-center items-center animate-in fade-in slide-in-from-bottom-10 duration-1000 delay-500">
+                <div className={cn(
+                    "flex flex-col sm:flex-row gap-4 justify-center items-center animate-in fade-in slide-in-from-bottom-10 duration-1000 delay-500",
+                    isMobile && "duration-700 delay-300 slide-in-from-bottom-4"
+                )}>
                     <Button
                         size="lg"
                         variant="outline"

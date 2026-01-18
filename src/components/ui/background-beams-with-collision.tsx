@@ -2,6 +2,7 @@
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "motion/react";
 import React, { useRef, useState, useEffect } from "react";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 export const BackgroundBeamsWithCollision = ({
   children,
@@ -12,6 +13,7 @@ export const BackgroundBeamsWithCollision = ({
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const parentRef = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile();
 
   const beams = [
     {
@@ -71,11 +73,10 @@ export const BackgroundBeamsWithCollision = ({
       ref={parentRef}
       className={cn(
         "bg-gradient-to-b from-white to-neutral-100 dark:from-neutral-950 dark:to-neutral-800 relative w-full flex flex-col items-center overflow-hidden",
-        // h-screen if you want bigger
         className
       )}
     >
-      {beams.map((beam) => (
+      {!isMobile && beams.map((beam) => (
         <CollisionMechanism
           key={beam.initialX + "beam-idx"}
           beamOptions={beam}
