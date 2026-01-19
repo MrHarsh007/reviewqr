@@ -4,6 +4,8 @@ import "./globals.css";
 import { AuthProvider } from "@/lib/contexts/AuthContext";
 import { ThemeProvider } from "@/lib/contexts/ThemeContext";
 import { Toaster } from "@/components/ui/sonner";
+import { SpeedInsights } from '@vercel/speed-insights/next';
+
 
 const inter = Inter({
   subsets: ["latin"],
@@ -33,6 +35,7 @@ export default function RootLayout({
             {children}
             <Toaster />
             <FeedbackButton />
+            <SpeedInsights />
           </AuthProvider>
         </ThemeProvider>
       </body>
