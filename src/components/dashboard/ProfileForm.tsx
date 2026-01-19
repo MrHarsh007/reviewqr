@@ -26,7 +26,8 @@ export function ProfileForm({ user, existingProfile, onSave, onCancel }: Profile
     const [photoURL, setPhotoURL] = useState(existingProfile?.photoURL || user.photoURL || '');
     const [uploadingPhoto, setUploadingPhoto] = useState(false);
     const [companyName, setCompanyName] = useState(existingProfile?.companyName || '');
-    const [yearsOfExperience, setYearsOfExperience] = useState(existingProfile?.yearsOfExperience || 0);
+    const [yearsOfExperience, setYearsOfExperience] = useState<number | ''>(existingProfile?.yearsOfExperience || 1);
+    const [validationErrors, setValidationErrors] = useState<Set<string>>(new Set());
     const [prefilledReviews, setPrefilledReviews] = useState<string[]>(
         existingProfile?.prefilledReviews || ['']
     );
@@ -83,18 +84,20 @@ export function ProfileForm({ user, existingProfile, onSave, onCancel }: Profile
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        if (!companyName || yearsOfExperience <= 0) {
-            toast.error('Please fill in all required fields');
-            return;
-        }
+        // Validate all required fields
+        const errors = new Set<string>();
 
-        if (categories.length === 0) {
-            toast.error('Please add at least one category');
-            return;
-        }
+        if (!displayName.trim()) errors.add('displayName');
+        if (!companyName.trim()) errors.add('companyName');
+        if (yearsOfExperience === '' || yearsOfExperience <= 0) errors.add('yearsOfExperience');
+        if (!platformName.trim()) errors.add('platformName');
+        if (!externalUrl.trim()) errors.add('externalUrl');
+        if (categories.length === 0) errors.add('categories');
 
-        if (!externalUrl || !platformName) {
-            toast.error('Please configure a review location');
+        setValidationErrors(errors);
+
+        if (errors.size > 0) {
+            toast.error('Please fill in all required fields (highlighted in red)');
             return;
         }
 
@@ -116,7 +119,7 @@ export function ProfileForm({ user, existingProfile, onSave, onCancel }: Profile
                 displayName,
                 photoURL,
                 companyName,
-                yearsOfExperience,
+                yearsOfExperience: typeof yearsOfExperience === 'number' ? yearsOfExperience : 1,
                 prefilledReviews: validPrefilledReviews.length > 0 ? validPrefilledReviews : undefined,
                 categories,
                 location,
@@ -172,9 +175,19 @@ export function ProfileForm({ user, existingProfile, onSave, onCancel }: Profile
                     <Input
                         id="displayName"
                         value={displayName}
-                        onChange={(e) => setDisplayName(e.target.value)}
+                        onChange={(e) => {
+                            setDisplayName(e.target.value);
+                            if (validationErrors.has('displayName')) {
+                                setValidationErrors(prev => {
+                                    const next = new Set(prev);
+                                    next.delete('displayName');
+                                    return next;
+                                });
+                            }
+                        }}
                         required
                         placeholder="Your full name"
+                        className={validationErrors.has('displayName') ? 'border-red-500 focus-visible:ring-red-500' : ''}
                     />
                 </div>
 
@@ -186,9 +199,19 @@ export function ProfileForm({ user, existingProfile, onSave, onCancel }: Profile
                     <Input
                         id="companyName"
                         value={companyName}
-                        onChange={(e) => setCompanyName(e.target.value)}
+                        onChange={(e) => {
+                            setCompanyName(e.target.value);
+                            if (validationErrors.has('companyName')) {
+                                setValidationErrors(prev => {
+                                    const next = new Set(prev);
+                                    next.delete('companyName');
+                                    return next;
+                                });
+                            }
+                        }}
                         required
                         placeholder="e.g., ABC Corporation"
+                        className={validationErrors.has('companyName') ? 'border-red-500 focus-visible:ring-red-500' : ''}
                     />
                     <p className="text-xs text-muted-foreground">
                         This will appear on your review page
@@ -203,12 +226,35 @@ export function ProfileForm({ user, existingProfile, onSave, onCancel }: Profile
                     <Input
                         id="yearsOfExperience"
                         type="number"
-                        min="0"
+                        min="0.1"
+                        step="0.1"
                         value={yearsOfExperience}
-                        onChange={(e) => setYearsOfExperience(parseInt(e.target.value) || 0)}
+                        onChange={(e) => {
+                            let value: number | '' = '';
+                            if (e.target.value !== '') {
+                                const parsed = parseFloat(e.target.value);
+                                // Round to 1 decimal place
+                                value = Math.round(parsed * 10) / 10;
+                            }
+                            setYearsOfExperience(value);
+                            if (validationErrors.has('yearsOfExperience')) {
+                                setValidationErrors(prev => {
+                                    const next = new Set(prev);
+                                    next.delete('yearsOfExperience');
+                                    return next;
+                                });
+                            }
+                        }}
                         required
-                        placeholder="e.g., 5"
+                        placeholder="e.g., 1.5, 2.5, 5"
+                        className={validationErrors.has('yearsOfExperience') ? 'border-red-500 focus-visible:ring-red-500' : ''}
                     />
+                    {validationErrors.has('yearsOfExperience') && (
+                        <p className="text-xs text-red-500">This field is required</p>
+                    )}
+                    <p className="text-xs text-muted-foreground">
+                        One decimal place allowed (e.g., 1.2, 2.5, 5.5)
+                    </p>
                 </div>
             </div>
 
@@ -227,9 +273,19 @@ export function ProfileForm({ user, existingProfile, onSave, onCancel }: Profile
                     <Input
                         id="platformName"
                         value={platformName}
-                        onChange={(e) => setPlatformName(e.target.value)}
+                        onChange={(e) => {
+                            setPlatformName(e.target.value);
+                            if (validationErrors.has('platformName')) {
+                                setValidationErrors(prev => {
+                                    const next = new Set(prev);
+                                    next.delete('platformName');
+                                    return next;
+                                });
+                            }
+                        }}
                         placeholder="e.g., Google Reviews, Yelp, Trustpilot"
                         required
+                        className={validationErrors.has('platformName') ? 'border-red-500 focus-visible:ring-red-500' : ''}
                     />
                 </div>
 
@@ -239,9 +295,19 @@ export function ProfileForm({ user, existingProfile, onSave, onCancel }: Profile
                         id="externalUrl"
                         type="url"
                         value={externalUrl}
-                        onChange={(e) => setExternalUrl(e.target.value)}
+                        onChange={(e) => {
+                            setExternalUrl(e.target.value);
+                            if (validationErrors.has('externalUrl')) {
+                                setValidationErrors(prev => {
+                                    const next = new Set(prev);
+                                    next.delete('externalUrl');
+                                    return next;
+                                });
+                            }
+                        }}
                         placeholder="https://..."
                         required
+                        className={validationErrors.has('externalUrl') ? 'border-red-500 focus-visible:ring-red-500' : ''}
                     />
                     <p className="text-xs text-muted-foreground">
                         💡 Tip: Go to your business page on Google/Yelp, click "Write a review", and copy that URL
