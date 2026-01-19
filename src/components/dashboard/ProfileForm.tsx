@@ -366,7 +366,7 @@ export function ProfileForm({ user, existingProfile, onSave, onCancel }: Profile
                     </Button>
                 )}
                 <Button type="submit" className="flex-1" size="lg" disabled={loading}>
-                    {loading ? 'Saving...' : 'Save Profile & Generate QR Code'}
+                    {loading ? 'Saving...' : 'Save Profile'}
                 </Button>
             </div>
 

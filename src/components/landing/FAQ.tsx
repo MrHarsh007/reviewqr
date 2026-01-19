@@ -26,7 +26,7 @@ const faqs = [
     },
     {
         question: "Is there a limit on how many reviews can be generated?",
-        answer: "The AI generation depends on your plan, but we offer generous limits to ensure your business can grow its social proof without worrying about technical restrictions."
+        answer: "The AI generation depends on your plan, but we offer generous limits to ensure your business can grow its social proof without worrying about technical restrictions. You can generate a new AI review every 2 minutes, as there is a short cooldown period between generations."
     }
 ];
 
