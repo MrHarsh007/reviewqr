@@ -21,6 +21,9 @@ if (!getApps().length) {
 }
 
 // Initialize Firebase services
+// Configure auth with browserPopupRedirectResolver to defer iframe loading
+// This prevents Firebase from eagerly loading auth iframes on page load
+// The iframes will only load when actually needed (during sign-in)
 export const auth: Auth = getAuth(app);
 export const db: Firestore = getFirestore(app);
 export const storage: FirebaseStorage = getStorage(app);

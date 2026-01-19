@@ -17,7 +17,7 @@ import { toast } from 'sonner';
 import { Logo } from '@/components/ui/Logo';
 import { ROUTES } from '@/lib/constants';
 import Link from 'next/link';
-import { BackgroundBeamsWithCollision } from "@/components/ui/background-beams-with-collision";
+import { LazyBackgroundBeams } from "@/components/ui/LazyBackgroundBeams";
 
 export default function DashboardPage() {
     const { user, signOut } = useAuth();
@@ -82,7 +82,7 @@ export default function DashboardPage() {
 
                 {/* Main Content */}
                 <main className="relative">
-                    <BackgroundBeamsWithCollision className="min-h-screen py-12" >
+                    <LazyBackgroundBeams className="py-12">
                         <div className="container mx-auto px-4 relative z-20">
                             {/* <div className="text-center mb-12">
                                 <p className="text-sm md:text-base uppercase tracking-[0.2em] text-muted-foreground mb-2">
@@ -254,7 +254,7 @@ export default function DashboardPage() {
                                 </div>
                             )}
                         </div>
-                    </BackgroundBeamsWithCollision>
+                    </LazyBackgroundBeams>
                 </main>
             </div>
         </ProtectedRoute>

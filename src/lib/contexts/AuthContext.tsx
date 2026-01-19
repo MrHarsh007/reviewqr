@@ -7,6 +7,7 @@ import {
     signInWithPopup,
     signOut as firebaseSignOut,
     onAuthStateChanged,
+    browserPopupRedirectResolver,
 } from 'firebase/auth';
 import { auth } from '@/lib/firebase/config';
 import { useRouter } from 'next/navigation';
@@ -38,7 +39,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const signInWithGoogle = async () => {
         try {
             const provider = new GoogleAuthProvider();
-            const result = await signInWithPopup(auth, provider);
+            // Use browserPopupRedirectResolver to defer iframe loading until sign-in is clicked
+            // This prevents Firebase from loading auth iframes on page load
+            const result = await signInWithPopup(auth, provider, browserPopupRedirectResolver);
             if (result.user) {
                 router.push(ROUTES.DASHBOARD);
             }

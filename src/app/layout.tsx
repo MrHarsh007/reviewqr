@@ -5,11 +5,14 @@ import { AuthProvider } from "@/lib/contexts/AuthContext";
 import { ThemeProvider } from "@/lib/contexts/ThemeContext";
 import { Toaster } from "@/components/ui/sonner";
 import { SpeedInsights } from '@vercel/speed-insights/next';
-
+import LazyFeedbackButton from '@/components/LazyFeedbackButton';
 
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
+  display: 'swap', // Prevent FOIT (Flash of Invisible Text)
+  preload: true, // Preload the font for faster loading
+  adjustFontFallback: true, // Reduce layout shift with better fallback fonts
 });
 
 export const metadata: Metadata = {
@@ -19,8 +22,6 @@ export const metadata: Metadata = {
     icon: '/logo.png',
   }
 };
-
-import FeedbackButton from "@/components/FeedbackButton";
 
 export default function RootLayout({
   children,
@@ -34,7 +35,7 @@ export default function RootLayout({
           <AuthProvider>
             {children}
             <Toaster />
-            <FeedbackButton />
+            <LazyFeedbackButton />
             <SpeedInsights />
           </AuthProvider>
         </ThemeProvider>
