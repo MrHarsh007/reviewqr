@@ -18,6 +18,8 @@ export const metadata: Metadata = {
   }
 };
 
+import FeedbackButton from "@/components/FeedbackButton";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -30,6 +32,7 @@ export default function RootLayout({
           <AuthProvider>
             {children}
             <Toaster />
+            <FeedbackButton />
           </AuthProvider>
         </ThemeProvider>
       </body>
