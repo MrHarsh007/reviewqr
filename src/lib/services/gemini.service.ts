@@ -3,7 +3,13 @@ import { ReviewGenerationRequest } from '@/lib/types/user';
 
 const vertex_ai = new VertexAI({
   project: process.env.GOOGLE_CLOUD_PROJECT || '',
-  location: process.env.GOOGLE_CLOUD_LOCATION || 'us-central1'
+  location: process.env.GOOGLE_CLOUD_LOCATION || 'us-central1',
+  googleAuthOptions: {
+    credentials: {
+      client_email: process.env.GOOGLE_CLIENT_EMAIL,
+      private_key: process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+    }
+  }
 });
 
 export const geminiService = {
