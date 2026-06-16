@@ -58,7 +58,7 @@ export function Navbar() {
                     </Link>
                     <Link href="/changelog">
                         <Badge variant="secondary" className="hover:bg-secondary/80 cursor-pointer transition-colors">
-                            V:1.0
+                            V:1.1
                         </Badge>
                     </Link>
                 </div>
