@@ -15,7 +15,7 @@ const vertex_ai = new VertexAI({
 export const geminiService = {
   async generateReview(request: ReviewGenerationRequest): Promise<string> {
     try {
-      const model = vertex_ai.getGenerativeModel({ model: 'gemini-3.1-flash-lite' });
+      const model = vertex_ai.getGenerativeModel({ model: 'gemini-2.5-flash' });
 
       const prompt = `Generate a professional, positive review for ${request.employeeName} who works at ${request.companyName}. Focus on the ${request.category} aspect. The review should be authentic, specific, and between 25-100 words. Write in first person as if you are a satisfied customer. Important: Do not include any brackets, placeholders (like [date], [details]), or instructions for the user to fill in; the review should be ready to publish as-is.`;
 
