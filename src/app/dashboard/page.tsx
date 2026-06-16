@@ -68,7 +68,7 @@ export default function DashboardPage() {
                         <div className="flex items-center gap-2">
                             <Link href="/changelog">
                                 <Badge variant="secondary" className="hover:bg-secondary/80 cursor-pointer transition-colors">
-                                    V:1.0
+                                    V:1.1
                                 </Badge>
                             </Link>
                             <ThemeToggle />
